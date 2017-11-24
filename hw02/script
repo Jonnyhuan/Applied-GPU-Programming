@@ -1,0 +1,8 @@
+# nvcc -arch=sm_52 exercise1.cu -o exercise1.out
+
+# nvcc -arch=sm_52 exercise2_test1.cu -o exercise2_test1.out
+# nvcc -arch=sm_52 exercise2_test2.cu -o exercise2_test2.out
+
+# nvcc -arch=sm_52 -I/usr/local/cuda-9.0/samples/common/inc/ exercise3_test1.cu -o exercise3_test1.out
+
+nvcc -arch=sm_52 -I/usr/local/cuda-9.0/samples/common/inc/ exercise3_test2.cu -o exercise3_test2.out
