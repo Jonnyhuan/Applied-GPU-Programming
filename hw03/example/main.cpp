@@ -1,10 +1,16 @@
 
 #include "common.hpp"
 #include "util.hpp"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 using namespace std;
 using namespace glm;
 using namespace agp;
+
+const unsigned int SCR_WIDTH = 1280;
+const unsigned int SCR_HEIGHT = 720;
 
 GLuint VAO = 0;
 GLuint shaderProgram = 0;
@@ -19,6 +25,24 @@ void init()
 	shaderProgram = util::loadShaders("./vertexShader.glsl", "./fragmentShader.glsl");
 	
   	glUseProgram(shaderProgram);
+
+    // create transformation matrices
+    glm::mat4 model;
+    glm::mat4 view;
+    glm::mat4 projection;
+    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+    view  = glm::lookAt(glm::vec3(0.0f, 0.0f, 6.0f),
+            glm::vec3(0.0f, 0.0f, 0.0f),
+            glm::vec3(0.0f, 1.0f, 0.0f));
+    projection = glm::perspective(glm::radians(60.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+    // retrieve the matrix uniform locations
+    unsigned int modelLoc = glGetUniformLocation(shaderProgram, "model");
+    unsigned int viewLoc  = glGetUniformLocation(shaderProgram, "view");
+    unsigned int projectionLoc = glGetUniformLocation(shaderProgram, "projection");
+    // pass them to the shaders (3 different ways)
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
     // Set the background color (RGBA), change to color black
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -87,7 +111,7 @@ int main(int argc, char **argv)
     glutInit(&argc, argv);
     
     // Setup the window (e.g., size, display mode and so on)
-    glutInitWindowSize(1280, 720);
+    glutInitWindowSize(SCR_WIDTH, SCR_HEIGHT);
     // glutInitWindowPosition( ... );
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA); //Initialized display mode to enable double buffering and RGBA
     
