@@ -6,7 +6,8 @@ using namespace std;
 using namespace glm;
 using namespace agp;
 
-GLuint g_default_vao = 0;
+GLuint VAO = 0;
+GLuint VBO = 0;
 GLuint shaderProgram = 0;
 
 float vertices[] = {
@@ -14,9 +15,6 @@ float vertices[] = {
     0.5f, -0.5f, 0.0f, // right 
     0.0f,  0.5f, 0.0f  // top   
 }; 
-
-unsigned int VBO, VAO;
-
 
 void init()
 {
