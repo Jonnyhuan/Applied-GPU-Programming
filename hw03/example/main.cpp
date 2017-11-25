@@ -21,8 +21,6 @@ void init()
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
   	// ------------------------------------------------------------------
-	shaderProgram = util::loadShaders("./vertexShader.glsl", "./fragmentShader.glsl");
-
   	glGenVertexArrays(1, &VAO);
   	glGenBuffers(1, &VBO);
   	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
@@ -36,10 +34,14 @@ void init()
 	
   	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
   	glBindBuffer(GL_ARRAY_BUFFER, 0); 
+
+    // load vertex and fragment shader programs
+    shaderProgram = util::loadShaders("./vertexShader.glsl", "./fragmentShader.glsl");
+    glUseProgram(shaderProgram);
 	
   	// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
   	// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
- 	glBindVertexArray(0); 
+ 	  glBindVertexArray(0); 
    
     // Set the background color (RGBA), change to color black
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -66,11 +68,10 @@ void display()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // draw our first triangle
-    glUseProgram(shaderProgram);
     glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
     glDrawArrays(GL_TRIANGLES, 0, 3);
 
- 	//   printf("FreeGLUT triggered the display() callback!\n");
+ 	  //   printf("FreeGLUT triggered the display() callback!\n");
     
     // Your rendering code must be here! Do not forget to swap the
     // front and back buffers, and to force a redisplay to keep the
